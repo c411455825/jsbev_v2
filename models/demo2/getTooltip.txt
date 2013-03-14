@@ -1,0 +1,9 @@
+﻿        function getTooltip(){
+            if(!myTooltip){
+                myTooltip = new SuperMap.Bev.Tooltip($("#bd_right"),{
+                    "position":["center","top"],
+                    "offset":{"x":0,"y":40}
+                });
+            }
+            return myTooltip;
+        }

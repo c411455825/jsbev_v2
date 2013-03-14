@@ -1,0 +1,19 @@
+﻿            var myIcon1 = new SuperMap.Bev.Icon($("#bd_toolbar"),{
+                "title":"面积量算",
+                "img":"images/frameimages/measure2.png",
+                "click":function(){
+                    var m = getMesure();
+                    m.measureArea();
+                },
+                "isDisplayTitle":true
+            });
+
+            var myIcon2 = new SuperMap.Bev.Icon($("#bd_toolbar"),{
+                "title":"距离量算",
+                "img":"images/frameimages/measure_16_16.png",
+                "click":function(){
+                    var m = getMesure();
+                    m.measureDistance();
+                },
+                "isDisplayTitle":true
+            });

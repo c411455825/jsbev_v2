@@ -1,0 +1,68 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="./js/SuperMap.Include.js"></script>
+	<script src="./js/jquery-1.8.2.js"></script>
+    <script src="./js/demo2/bev_main.js"></script>
+    <!--
+     //初始化bev框架，
+    SuperMap.Bev.Main.init(function(){
+            //页面代码需要放入其回调函数中
+
+
+            //设置主题，支持的主题有base，black-tie，blitzer，cupertino，dark-hive
+            //dot-luv，eggplant，excite-bike，flick，hot-sneaks，humanity，le-frog，mint-choc，overcast，pepper-grinder
+            //redmond，smoothness，south-street，start，sunny，swanky-purse，trontastic，ui-darkness，ui-lightness，vader
+            SuperMap.Bev.Theme.set("dot-luv");
+
+            //your code
+        });
+    -->
+    {_initscript_}
+    </head>
+<body onload="init()" style="position: absolute;width: 100%;height: 100%;">
+<!--[if IE 7]><div style="position: absolute;width: 100%;height: 100%;overflow: hidden;"><![endif]-->
+    <div id="head" class="background_1">
+        <span id="logo" class="inline_block"></span>
+    </div>
+    <div id="bev_bd">
+        <div id="bd_left" class="floatl">
+            <div id="left_back"></div>
+            <div class="bd_left_d0"><span id="left_menu" class="bdleft_d1 inline_block">test</span></div>
+        </div>
+        <div id="bd_right" class="">
+            <div id="bd_toolbar" class="bd_toolbar">
+                <div id="toolbar_back"></div>
+            </div>
+            <div id="mapContainer" class="bd_map" style="border: 0px solid #000;"></div>
+        </div>
+    </div>
+<!--[if IE 7]></div><![endif]-->
+</body>
+<script type="text/javascript">
+    (function(){
+        window.resizeFunctions = [];
+        var a = function(){
+            var b = document.body;
+            var a = b.clientHeight;
+            var c = window.resizeFunctions;
+            for(var i=0;i< c.length;c++){
+                if(c[i]){
+                    try{c[i]();}catch(e){}
+                }
+            }
+            document.getElementById("bev_bd").style.height = (a - 65) + "px";
+        }
+        a();
+        if(window.addEventListener){
+            window.addEventListener("resize",a);
+        }
+        else{
+            window.attachEvent("onresize",a);
+        }
+    })();
+</script>
+</html>

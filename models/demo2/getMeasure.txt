@@ -1,0 +1,16 @@
+﻿        function getMesure(){
+            if(!myMeasure){
+                myMeasure = new SuperMap.Bev.Measure(null,map);
+                myMeasure.showResult = function(txt){
+                    var tooltip = getTooltip();
+                    tooltip.show(txt);
+                }
+
+                myMeasure.clearResult = function(txt){
+                    var tooltip = getTooltip();
+                    tooltip.close();
+                }
+            }
+
+            return myMeasure;
+        }

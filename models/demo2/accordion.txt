@@ -1,0 +1,21 @@
+﻿            var myAccordion = new SuperMap.Bev.Accordion($("#left_menu"),
+                [
+                    {_firstAccordingItem_}
+                    {
+                        "title":"查询",
+                        "body":$("<p>this is a examples</p><br><p>this is a examples</p><br><p>this is a examples</p>")
+                    },
+                    {
+                        "title":"分析",
+                        "body":$("<p>this is a examples</p><br><p>this is a examples</p><br><p>this is a examples</p>")
+                    },
+                    {
+                        "title":"专题图",
+                        "body":$("<p>this is a examples</p><br><p>this is a examples</p><br><p>this is a examples</p>")
+                    },
+                    {
+                        "title":"公交查询",
+                        "body":$("<p>this is a examples</p><br><p>this is a examples</p><br><p>this is a examples</p>")
+                    }
+                ]
+            );
