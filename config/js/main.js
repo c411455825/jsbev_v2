@@ -6,6 +6,7 @@
     function A(){
         var t = this;
         t.createToolbar();
+        t.createMap();
     }
     var B = A.prototype;
     /**
@@ -13,7 +14,7 @@
      * 创建配置工具栏。
      */
     B.createToolbar = function(){
-        var body,bk,ct,btn;
+        var body,bk,ct,btn,d1;
 
         body = $("#toolbar");
         bk = $("<div>")
@@ -41,8 +42,37 @@
             .css({
                 "position":"absolute",
                 "height":"60px",
-                "width":"20px"
+                "width":"20px",
+                "left":"340px",
+                "top":"100px",
+                "border":"#AED0EA 1px solid"
             })
+            .addClass("ui-widget-overlay ui-corner-tr ui-corner-br")
+            .appendTo(body);
+
+        d1 = $("<button>")
+            .button({
+                icons: {
+                    primary: "ui-icon-circle-triangle-w"
+                },
+                text: false
+            })
+            .css({
+                "border":"0px solid #000",
+                "background":"none",
+                "position":"absolute",
+                "width":"16px",
+                "height":"16px",
+                "left":"2px",
+                "top":"22px"
+            })
+            .appendTo(btn);
+
+        resizeFunctions.push(function(height){
+            btn.css({
+                "top":((height-60)/2)+"px"
+            });
+        });
     }
     new A();
 })()
