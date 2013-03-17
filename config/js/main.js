@@ -8,7 +8,9 @@
         t.toolBarBd = null;
         t.isToolBarShow = true;
         t.toolBarButtonIcon = null;
+        t.toolBarContent = null;
         t.createToolbar();
+        t.createStep1();
     }
     var B = A.prototype;
     /**
@@ -27,12 +29,12 @@
                 "opacity":0.8,
                 "filter":"alpha(opacity=80)",
                 "border-right": "1px solid #aed0ea",
-                "z-index":5
+                "z-index":-5
             })
             .addClass("ui-widget-overlay")
             .appendTo(body);
 
-        ct = $("<div>")
+        t.toolBarContent = ct = $("<div>")
             .css({
                 "position":"absolute",
                 "height":"100%",
@@ -115,6 +117,81 @@
             });
         });
     }
-    B.
+    B.createStep1 = function(){
+        var d1, b,t = this;
+
+        var templeteArr = [
+            "模板一",
+            "模板二"
+        ];
+
+        b = t.toolBarContent;
+
+        d1 = $("<div>")
+            .html("1.选择模板")
+            .css({
+                "margin":"20px 0px 0px 10px"
+            })
+            .appendTo(b);
+
+        d1 = $("<div>")
+            .css({
+                "margin":"10px 0px 0px 10px"
+            })
+            .appendTo(b);
+
+        this.createSelectBar(d1,templeteArr,function(txt){alert(txt)},30,150);
+    }
+    B.createSelectBar = function(div,txtArr,onSelect,height,width){
+        var s1,o1;
+
+        s1 = $("<select>")
+            .css({
+                "height":height+"px",
+                "width":width+"px"
+            })
+            .change(function(onSelect){
+                return function(){
+                    onSelect($(this).attr("value"));
+                }
+            }(onSelect))
+            .appendTo(div);
+
+        for(var i=0;i<txtArr.length;i++){
+            o1 = $("<option>")
+                .html(txtArr[i])
+                .attr("value",txtArr[i])
+                .appendTo(s1);
+        }
+    }
+    B.createStep2 = function(){
+        var skinArr = [
+            "cupertino",
+            "base",
+            "black-tie",
+            "blitzer",
+            "dark-hive",
+            "dot-luv",
+            "eggplant",
+            "excite-bike",
+            "flick",
+            "hot-sneaks",
+            "humanity",
+            "le-frog",
+            "mint-choc",
+            "overcast",
+            "pepper-grinder",
+            "redmond",
+            "smoothness",
+            "south-street",
+            "start",
+            "sunny",
+            "swanky-purse",
+            "trontastic",
+            "ui-darkness",
+            "ui-lightness",
+            "vader"
+        ];
+    }
     new A();
 })()
