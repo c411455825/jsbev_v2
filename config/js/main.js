@@ -5,8 +5,10 @@
 (function(){
     function A(){
         var t = this;
+        t.toolBarBd = null;
+        t.isToolBarShow = true;
+        t.toolBarButtonIcon = null;
         t.createToolbar();
-        t.createMap();
     }
     var B = A.prototype;
     /**
@@ -14,9 +16,9 @@
      * 创建配置工具栏。
      */
     B.createToolbar = function(){
-        var body,bk,ct,btn,d1;
+        var body,bk,ct,btn,d1,t = this;
 
-        body = $("#toolbar");
+        t.toolBarBd = body = $("#toolbar");
         bk = $("<div>")
             .css({
                 "position":"absolute",
@@ -48,9 +50,17 @@
                 "border":"#AED0EA 1px solid"
             })
             .addClass("ui-widget-overlay ui-corner-tr ui-corner-br")
+            .click(function(){
+                if(t.isToolBarShow){
+                    t.hideToolBar();
+                }
+                else{
+                    t.showToolBar();
+                }
+            })
             .appendTo(body);
 
-        d1 = $("<button>")
+        t.toolBarButtonIcon = d1 = $("<button>")
             .button({
                 icons: {
                     primary: "ui-icon-circle-triangle-w"
@@ -74,5 +84,37 @@
             });
         });
     }
+    B.hideToolBar = function(){
+        var t = this;
+
+        this.toolBarBd.css({
+            "left":"0px"
+        });
+
+        this.toolBarBd.animate({left:'-340px'},"fast",function(){
+            t.isToolBarShow = false;
+            t.toolBarButtonIcon.button({
+                icons: {
+                    primary: "ui-icon-circle-triangle-e"
+                }
+            });
+        });
+    }
+    B.showToolBar = function(){
+        var t = this;
+        this.toolBarBd.css({
+            "left":"-340px"
+        });
+
+        this.toolBarBd.animate({left:'0px'},"fast",function(){
+            t.isToolBarShow = true;
+            t.toolBarButtonIcon.button({
+                icons: {
+                    primary: "ui-icon-circle-triangle-w"
+                }
+            });
+        });
+    }
+    B.
     new A();
 })()
