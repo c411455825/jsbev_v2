@@ -9,8 +9,14 @@
         t.isToolBarShow = true;
         t.toolBarButtonIcon = null;
         t.toolBarContent = null;
+        t.mapFrame = null;
+        t.confParam = {
+            "templete":"d1",
+            "theme":"cupertino"
+        }
         t.createToolbar();
         t.createStep1();
+        t.createStep2();
     }
     var B = A.prototype;
     /**
@@ -47,7 +53,7 @@
                 "position":"absolute",
                 "height":"60px",
                 "width":"20px",
-                "left":"340px",
+                "left":"370px",
                 "top":"100px",
                 "border":"#AED0EA 1px solid"
             })
@@ -93,7 +99,7 @@
             "left":"0px"
         });
 
-        this.toolBarBd.animate({left:'-340px'},"fast",function(){
+        this.toolBarBd.animate({left:'-370px'},"fast",function(){
             t.isToolBarShow = false;
             t.toolBarButtonIcon.button({
                 icons: {
@@ -105,7 +111,7 @@
     B.showToolBar = function(){
         var t = this;
         this.toolBarBd.css({
-            "left":"-340px"
+            "left":"-370px"
         });
 
         this.toolBarBd.animate({left:'0px'},"fast",function(){
@@ -121,8 +127,15 @@
         var d1, b,t = this;
 
         var templeteArr = [
-            "模板一",
-            "模板二"
+            {
+                "name":"模板一",
+                "value":"d1"
+            }
+            ,
+            {
+                "name":"模板二",
+                "value":"d2"
+            }
         ];
 
         b = t.toolBarContent;
@@ -140,7 +153,11 @@
             })
             .appendTo(b);
 
-        this.createSelectBar(d1,templeteArr,function(txt){alert(txt)},30,150);
+        this.createSelectBar(d1,templeteArr,function(txt){
+            t.confParam.templete = txt;
+
+            t.setDemoPara(t.confParam);
+        },30,150);
     }
     B.createSelectBar = function(div,txtArr,onSelect,height,width){
         var s1,o1;
@@ -159,12 +176,14 @@
 
         for(var i=0;i<txtArr.length;i++){
             o1 = $("<option>")
-                .html(txtArr[i])
-                .attr("value",txtArr[i])
+                .html(txtArr[i].name||txtArr[i])
+                .attr("value",txtArr[i].value||txtArr[i])
                 .appendTo(s1);
         }
     }
     B.createStep2 = function(){
+        var d1, b,t = this;
+
         var skinArr = [
             "cupertino",
             "base",
@@ -192,6 +211,40 @@
             "ui-lightness",
             "vader"
         ];
+        b = t.toolBarContent;
+        d1 = $("<div>")
+            .html("2.选择主题")
+            .css({
+                "margin":"20px 0px 0px 10px"
+            })
+            .appendTo(b);
+
+        d1 = $("<div>")
+            .css({
+                "margin":"10px 0px 0px 10px"
+            })
+            .appendTo(b);
+
+        this.createSelectBar(d1,skinArr,function(txt){
+            t.confParam.theme = txt;
+
+            t.setDemoPara(t.confParam);
+        },30,150);
+    }
+    B.setDemoPara = function(param){
+        var url = "../demo.jsp?";
+        var txtArr = [],paramStr;
+        if(!this.mapFrame){
+            this.mapFrame = document.getElementById("mapFrame");
+        }
+
+        for(var key in param){
+            txtArr.push(key+"="+param[key]);
+        }
+        paramStr = txtArr.join("&");
+        url += paramStr;
+
+        this.mapFrame.src = url;
     }
     new A();
 })()

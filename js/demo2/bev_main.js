@@ -389,12 +389,12 @@ LazyLoad = (function (doc) {
 
   };
 })(this.document);
-
 (function(){
     function A(){
-        var jsPath = "js/";
+		var bp = window.smBasePath;
+        var jsPath = bp+"js/";
         var jqPath = jsPath+"ui/";
-        var cssPath = "css/";
+        var cssPath = bp+"css/";
         this.initJS = [
             //jsPath+"SuperMap.Include.js",
 //            jsPath+"jquery-1.8.2.js",
@@ -403,16 +403,16 @@ LazyLoad = (function (doc) {
         ];
         this.initCss = [
             cssPath+"demo2/style.css",
-            "theme/bevThemes/demos.css"
+            bp+"theme/bevThemes/demos.css"
         ];
         this.widget = [
-            "js/sm_accordion.js",
-            "js/sm_icon.js",
-            "js/sm_measure.js",
-            "js/sm_tooltip.js",
-            "js/sm_geolocate.js",
-            "js/demo2/sm_util.js",
-            "js/sm_drawFeature.js"
+            bp+"js/sm_accordion.js",
+            bp+"js/sm_icon.js",
+            bp+"js/sm_measure.js",
+            bp+"js/sm_tooltip.js",
+            bp+"js/sm_geolocate.js",
+            bp+"js/demo2/sm_util.js",
+            bp+"js/sm_drawFeature.js"
         ]
         this.themePath = jsPath+"demo2/sm_theme.js";
         this.loadTimes = 0;
@@ -486,8 +486,9 @@ LazyLoad = (function (doc) {
             return i;
         }
     }
+	if(!window.smBasePath)window.smBasePath = "";
    // SuperMap.Bev.Class.register("SuperMap.Bev.Main",A,null,true);
-    LazyLoad.js("js/sm_class.js",function(){
+    LazyLoad.js(window.smBasePath+"js/sm_class.js",function(){
         SuperMap.Bev.Class.register("SuperMap.Bev.Main",A,null,true);
     })
 })()

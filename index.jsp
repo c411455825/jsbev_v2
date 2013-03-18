@@ -1,5 +1,6 @@
 <%@ page import="java.io.*"%>
 <%
+  System.out.println("1");
   request.setCharacterEncoding("utf-8");
   String fname = request.getParameter("text"); 
   String page_name = request.getParameter("page_name"); 
