@@ -31,6 +31,9 @@ if(theme == null){
     
     <script>
         var map, layer0;
+		window.setMapCenter = function(x,y,z){
+			map.setCenter(new SuperMap.LonLat(x , y) , z); 
+		}
         function init() {
             SuperMap.Bev.Main.init(function(){
                 SuperMap.Bev.Theme.set('<%=theme%>');
@@ -53,6 +56,7 @@ if(theme == null){
 
                 map.addLayer(layer0);
                 map.setCenter(new SuperMap.LonLat(0 , 0) , 4); 
+				window.SMLoaded = true;
             })
         }
         var myMeasure,myTooltip,myGeolocate,myDrawFeature;

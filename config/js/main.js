@@ -14,9 +14,16 @@
             "templete":"d1",
             "theme":"cupertino"
         }
+        t.lonInput = null;
+        t.latInput = null;
+        t.levelInput = null;
+        t.isReLoadDemo = false;
         t.createToolbar();
         t.createStep1();
         t.createStep2();
+        t.createStep3();
+
+        t.setMapStatus();
     }
     var B = A.prototype;
     /**
@@ -232,7 +239,7 @@
         },30,150);
     }
     B.setDemoPara = function(param){
-        var url = "../demo.jsp?";
+        var url = "../demo.jsp?",me=this;
         var txtArr = [],paramStr;
         if(!this.mapFrame){
             this.mapFrame = document.getElementById("mapFrame");
@@ -245,6 +252,128 @@
         url += paramStr;
 
         this.mapFrame.src = url;
+        this.isReLoadDemo = true;
+        window.setTimeout(function(){
+            me.setMapStatus();
+        },300);
+    }
+    B.createStep3 = function(){
+        var b,d1,d2,t = this;
+
+        b = t.toolBarContent;
+        d1 = $("<div>")
+            .html("3.设置地图参数")
+            .css({
+                "margin":"20px 0px 0px 10px"
+            })
+            .appendTo(b);
+
+        d1 = $("<div>")
+            .css({
+                "margin":"10px 0px 0px 10px"
+            })
+            .appendTo(b);
+
+        t.createInput(d1,"地图名称:","SuperMap");
+
+        d1 = $("<div>")
+            .html("地图中心点:")
+            .css({
+                "margin":"20px 0px 0px 10px"
+            })
+            .appendTo(b);
+
+        d1 = $("<div>")
+            .css({
+                "margin":"10px 0px 0px 10px",
+                "height":"26px"
+            })
+            .appendTo(b);
+
+        d2 = t.createInput(d1,"经度","0","40px","100px",true);
+        t.lonInput = d2[1];
+        d2 = t.createInput(d1,"纬度","0","40px","100px",true);
+        t.latInput = d2[1];
+
+        d1 = $("<div>")
+            .css({
+                "margin":"10px 0px 0px 10px"
+            })
+            .appendTo(b);
+
+        d2 = t.createInput(d1,"地图级别:","0",null,"40px",true);
+        t.levelInput = d2[1];
+    }
+    B.createInput = function(container,title,defaultContent,width1,width2,isDisable){
+        var d0,d1;
+
+        d0 = $("<span>")
+            .css({
+                "display":"inline-block",
+                "vertical-align":"top",
+                "width":width1||"100px",
+                "padding-top":"5px"
+            })
+            .html(title)
+            .appendTo(container);
+
+        d1 = $("<input>")
+            .attr({
+                "value":defaultContent||"",
+                "type":"text"
+            })
+            .css({
+                "vertical-align":"top",
+                "width":width2||"200px",
+                "margin-right":"5px"
+            })
+            .appendTo(container);
+        if(isDisable)d1.attr({
+            "disabled":"disabled"
+        });
+
+        return [d0,d1];
+    }
+    B.setMapStatus = function(){
+        var me = this;
+        var frame = document.getElementById("mapFrame");
+        //var frameWindow = frame.contentWindow;
+        checkMapLoaded();
+
+        function checkMapLoaded(){
+            if(frame.contentWindow.SMLoaded){
+                me.frameMap = frame.contentWindow.map;
+                if(me.isReLoadDemo){
+                    moveMap();
+                }
+                else{
+                    setStatus();
+                }
+                frame.contentWindow.map.events.register("moveend", me, setStatus);
+                me.isReLoadDemo = false;
+                frame.contentWindow.SMLoaded = false;
+                return;
+            }
+            window.setTimeout(checkMapLoaded,1000);
+        }
+
+        function setStatus(){
+            var center = me.frameMap.getCenter();
+            var lon = center.lon;
+            var lat = center.lat;
+            var level = me.frameMap.getZoom();
+
+            me.lonInput.attr("value",lon);
+            me.latInput.attr("value",lat);
+            me.levelInput.attr("value",level);
+        }
+
+        function moveMap(){
+            var lon = parseFloat(me.lonInput.attr("value"));
+            var lat = parseFloat(me.latInput.attr("value"));
+            var level = parseFloat(me.levelInput.attr("value"));
+            me.frameMap.setCenter(new SuperMap.LonLat(lon , lat) , level);
+        }
     }
     new A();
 })()

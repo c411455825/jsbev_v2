@@ -30,6 +30,7 @@ if(theme == null){
     -->
     
     <script>
+	//window.SMPage = "2";
         var map, layer0;
         function init() {
             SuperMap.Bev.Main.init(function(){
@@ -51,7 +52,9 @@ if(theme == null){
                  layer0 = new SuperMap.Layer.CloudLayer();
 
                 map.addLayer(layer0);
-                map.setCenter(new SuperMap.LonLat(0 , 0) , 4); 
+                map.setCenter(new SuperMap.LonLat(0 , 0) , 4);
+				window.SMLoaded = true;
+				//if(window.SMLoaded)window.SMLoaded(map);
             })
         }
         var myWidgetControl,myMenuPanel,myMeasure,myNavigation,myGeolocate,myDrawFeature;
