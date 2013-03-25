@@ -4,7 +4,6 @@ String theme = (String) request.getParameter("theme");
 String x = (String) request.getParameter("x");
 String y = (String) request.getParameter("y");
 String z = (String) request.getParameter("z");
-String layerType = (String) request.getParameter("layerType");
 if(theme == null){
 	theme = "cupertino";
 }
@@ -17,7 +16,6 @@ if(y==""||y==null){
 if(z==""||z==null){
 	z="0";
 }
-if(layerType==null)layerType="1";
 %>
 <!DOCTYPE html>
 <html>
@@ -43,14 +41,32 @@ if(layerType==null)layerType="1";
             });
     -->
     
-    <jsp:include page="initMap.jsp"> 
-		<jsp:param name="theme" value="<%=theme%>"/>
-		<jsp:param name="x" value="<%=x%>"/> 
-		<jsp:param name="y" value="<%=y%>"/> 
-		<jsp:param name="z" value="<%=z%>"/> 
-		<jsp:param name="layerType" value="<%=layerType%>"/>
-	</jsp:include>
-	<script>
+    <script>
+        var map, layer0;
+        function init() {
+            SuperMap.Bev.Main.init(function(){
+                SuperMap.Bev.Theme.set('<%=theme%>');
+                initDemo();
+                map = new SuperMap.Map(
+                    'mapContainer',
+                    {
+                        controls:[
+                            new SuperMap.Control.ScaleLine(),
+                            new SuperMap.Control.PanZoomBar(),
+                            new SuperMap.Control.Navigation({ dragPanOptions: { enableKinetic: true } }),
+                            new SuperMap.Control.OverviewMap()
+                        ],
+                        units: 'm',
+                        projection: 'EPSG:3857'
+                    }
+                );
+                layer0 = new SuperMap.Layer.CloudLayer();
+
+                map.addLayer(layer0);
+                map.setCenter(new SuperMap.LonLat(<%=x%> , <%=y%>) , <%=z%>);
+				window.SMLoaded = true;
+            })
+        }
         var myWidgetControl,myMenuPanel,myMeasure,myNavigation,myGeolocate,myDrawFeature;
         function initDemo(){
             myWidgetControl = new SuperMap.Bev.WidgetControl("#widgetControl");
