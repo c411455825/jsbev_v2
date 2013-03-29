@@ -110,7 +110,7 @@ div.smControlMousePosition {
 .smControlOverviewMapRectReplacement {
     overflow: hidden;
     cursor: move;
-    background-image: url(../theme/images/overview_replacement.gif);
+    background-image: url(../images/overview_replacement.gif);
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -336,6 +336,7 @@ div.smControlSaveFeaturesItemInactive {
     background-color: pink;
     opacity: 0.5;
     filter: alpha(opacity=50); /* IE */
+	display: none;
 }
 
 /**
@@ -447,4 +448,8 @@ div.minimizeDiv .layerSwitcherContent{
     -moz-transition: opacity 0.2s linear;
     -o-transition: opacity 0.2s linear;
     transition: opacity 0.2s linear;
+}
+
+#popwin img{
+    max-width: none;
 }

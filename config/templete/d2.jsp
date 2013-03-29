@@ -5,6 +5,7 @@ String x = (String) request.getParameter("x");
 String y = (String) request.getParameter("y");
 String z = (String) request.getParameter("z");
 String layerType = (String) request.getParameter("layerType");
+String url = (String) request.getParameter("url");
 if(theme == null){
 	theme = "cupertino";
 }
@@ -25,7 +26,7 @@ if(layerType==null)layerType="1";
 	<title>supermap</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="js/SuperMap.Include.js"></script>
+    <script src="lib/SuperMap.Include.js"></script>
 	<script src="js/jquery-1.8.2.js"></script>
     <script src="js/demo2/bev_main.js"></script>
     <!--
@@ -50,6 +51,7 @@ if(layerType==null)layerType="1";
 		<jsp:param name="y" value="<%=y%>"/> 
 		<jsp:param name="z" value="<%=z%>"/> 
 		<jsp:param name="layerType" value="<%=layerType%>"/>
+		<jsp:param name="url" value="<%=url%>"/>
 	</jsp:include>
 	<script>
         var myMeasure,myTooltip,myGeolocate,myDrawFeature;

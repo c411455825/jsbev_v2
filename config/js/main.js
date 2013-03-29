@@ -17,6 +17,8 @@
         t.lonInput = null;
         t.latInput = null;
         t.levelInput = null;
+        t.iserverLayerInfoBody = null;
+        t.requestsObj = {};
         //t.isReLoadDemo = false;
         t.createToolbar();
         t.createStep1();
@@ -301,10 +303,24 @@
         ];
 
         this.createSelectBar(d1,serviceTypes,function(txt){
-            //t.confParam.theme = txt;
-
-            //t.setDemoPara(t.confParam);
+            if(txt==2){
+                t.getIServerLayersInfo();
+            }
+            else{
+                t.confParam.layerType = txt;
+                t.confParam.x = "";
+                t.confParam.y = "";
+                t.confParam.z = "";
+                t.setDemoPara(t.confParam);
+            }
         },30,205);
+
+        this.iserverLayerInfoBody = $("<div>")
+            .css({
+                "margin":"10px 0px 0px 10px",
+                "display":"none"
+            })
+            .appendTo(b);
 
         d1 = $("<div>")
             .html("地图中心点:")
@@ -409,6 +425,124 @@
 //            var level = parseFloat(me.levelInput.attr("value"));
 //            me.frameMap.setCenter(new SuperMap.LonLat(lon , lat) , level);
 //        }
+    }
+    B.getIServerLayersInfo = function(){
+        var url = window.location.host,t=this;
+        url = "http://"+url+"/iserver/services.jsonp";
+
+//        $.ajax({
+//            "dataType":"jsonp",
+//            "error":function(){},
+//            "success":function(data){
+//                var layerInfo = [];
+//                if(data&&data.length){
+//                    for(var i=0;i<data.length;i++){
+//                        var obj = data[i];
+//                        var name = obj.name;
+//                        if(name.match(/map-[A-z0-9]*\/rest/)){
+//                            layerInfo.push({
+//                                "name":name,
+//                                "value":obj.url
+//                            });
+//                        }
+//                    }
+//                    create(layerInfo);
+//                }
+//            },
+//            "type":"GET",
+//            "url":url
+//        });
+
+        this.request(url,function(data){
+            var urls = [];
+            if(data&&data.length){
+                for(var i=0;i<data.length;i++){
+                    var obj = data[i];
+                    var name = obj.name;
+                    if(name.match(/map-[A-z0-9]*\/rest/)){
+                        urls.push(obj.url + "/maps.jsonp");
+                    }
+                }
+                t.requests(urls,function(datas){
+                    var layerInfo = [];
+                    if(datas&&datas.length){
+                        for(var i=0;i<datas.length;i++){
+                            for(var j=0;j<datas[i].length;j++){
+                                var tpob = datas[i][j];
+                                layerInfo.push({
+                                    "name":tpob.name,
+                                    "value":tpob.path
+                                });
+                            }
+                        }
+                        create(layerInfo);
+                    }
+                })
+                //create(layerInfo);
+            }
+        })
+
+        function create(layerInfo){
+            var body = t.iserverLayerInfoBody;
+            if(body){
+                body.css({
+                    "display":"block"
+                });
+
+                if(body.html()||body.html()==""){
+                    var d1 = $("<div>")
+                        .html("选择iServer服务:")
+                        .css({
+                            "margin":"20px 0px 0px 10px"
+                        })
+                        .appendTo(body);
+
+                    d1 = $("<div>")
+                        .css({
+                            "margin":"10px 0px 0px 10px"
+                        })
+                        .appendTo(body);
+
+                    t.createSelectBar(d1,layerInfo,function(txt){
+                        t.confParam.layerType = 2;
+                        t.confParam.url = escape(txt);
+                        t.confParam.x = "";
+                        t.confParam.y = "";
+                        t.confParam.z = "";
+                        t.setDemoPara(t.confParam);
+                    },30,205);
+                }
+            }
+        }
+    }
+    B.request = function(url,callback){
+        $.ajax({
+            "dataType":"jsonp",
+            "error":function(callback){return function(){callback();}}(callback),
+            "success":function(callback){return function(data){callback(data);}}(callback),
+            "type":"GET",
+            "url":url
+        });
+    }
+    B.requests = function(urls,callback){
+        var key = new Date().getTime() + "_request",me = this;
+        for(var i=0;i<urls.length;i++){
+            this.request(urls[i],function(key,length,cur,callback){
+                return function(data){
+                    if(!me.requestsObj[key]){
+                        me.requestsObj[key] = [];
+                    }
+
+                    me.requestsObj[key].push(data);
+
+                    if(me.requestsObj[key].length == length){
+                        var res = me.requestsObj[key];
+                        me.requestsObj[key] = null;
+                        callback(res);
+                    }
+                }
+            }(key,urls.length,i,callback));
+        }
     }
     new A();
 })()
