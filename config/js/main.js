@@ -176,18 +176,30 @@
                 "height":height+"px",
                 "width":width+"px"
             })
+            //.attr({"name":"请选择:"})
             .change(function(onSelect){
                 return function(){
                     onSelect($(this).attr("value"));
                 }
             }(onSelect))
             .appendTo(div);
-
         for(var i=0;i<txtArr.length;i++){
-            o1 = $("<option>")
-                .html(txtArr[i].name||txtArr[i])
-                .attr("value",txtArr[i].value||txtArr[i])
-                .appendTo(s1);
+            if(txtArr[i].isTitle){
+                o1 = $("<option>")
+                    .html(txtArr[i].name)
+                    .attr({
+                        "value":"",
+                        "disabled":true,
+                        "selected":true
+                    })
+                    .appendTo(s1);
+            }
+            else{
+                o1 = $("<option>")
+                    .html(txtArr[i].name||txtArr[i])
+                    .attr("value",txtArr[i].value||txtArr[i])
+                    .appendTo(s1);
+            }
         }
     }
     B.createStep2 = function(){
@@ -464,7 +476,11 @@
                     }
                 }
                 t.requests(urls,function(datas){
-                    var layerInfo = [];
+                    var layerInfo = [{
+                        "name":"请选择",
+                        "value":"",
+                        "isTitle":true
+                    }];
                     if(datas&&datas.length){
                         for(var i=0;i<datas.length;i++){
                             for(var j=0;j<datas[i].length;j++){

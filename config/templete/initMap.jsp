@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="GBK"%>
+<%@ page language="java" import="java.net.*"%>
 <%
 String theme = (String) request.getParameter("theme");
 String x = (String) request.getParameter("x");
@@ -7,6 +8,9 @@ String z = (String) request.getParameter("z");
 String _layerType = (String) request.getParameter("layerType");
 int layerType = Integer.parseInt(_layerType);
 String url = (String) request.getParameter("url");
+if(url!=null){
+	url = URLDecoder.decode(url,"utf-8");
+}
 %>
 <%switch(layerType){
 	case 3://google
