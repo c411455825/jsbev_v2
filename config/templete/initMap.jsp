@@ -165,6 +165,11 @@ if(url!=null){
 			<%}
 			else{%>
 				function addLayer() {
+					if(pos.lon==0&&pos.lat==0&&level==0){
+						var bounds = layers[0].maxExtent;
+						pos = bounds.getCenterLonLat();
+						level = 1;
+					}
 					map.addLayers(layers);
 					map.setCenter(pos , level);
 					window.SMLoaded = true;

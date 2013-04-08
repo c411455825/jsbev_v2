@@ -18,6 +18,8 @@
         t.latInput = null;
         t.levelInput = null;
         t.iserverLayerInfoBody = null;
+        t.isGetIServerLayerInfo = false;
+        t.iserverLayerInfoSelectBar = null;
         t.requestsObj = {};
         //t.isReLoadDemo = false;
         t.createToolbar();
@@ -201,6 +203,8 @@
                     .appendTo(s1);
             }
         }
+
+        return s1;
     }
     B.createStep2 = function(){
         var d1, b,t = this;
@@ -316,9 +320,26 @@
 
         this.createSelectBar(d1,serviceTypes,function(txt){
             if(txt==2){
-                t.getIServerLayersInfo();
+                if(!t.isGetIServerLayerInfo){
+                    t.getIServerLayersInfo();
+                    t.isGetIServerLayerInfo = true;
+                }
+                else{
+                    t.iserverLayerInfoBody.css({
+                        "display":"block"
+                    });
+
+                    if(t.iserverLayerInfoSelectBar){
+                        t.iserverLayerInfoSelectBar[0].selectedIndex = 0;
+                    }
+                }
             }
             else{
+                if(t.iserverLayerInfoBody){
+                    t.iserverLayerInfoBody.css({
+                        "display":"none"
+                    });
+                }
                 t.confParam.layerType = txt;
                 t.confParam.x = "";
                 t.confParam.y = "";
@@ -519,7 +540,7 @@
                         })
                         .appendTo(body);
 
-                    t.createSelectBar(d1,layerInfo,function(txt){
+                    t.iserverLayerInfoSelectBar = t.createSelectBar(d1,layerInfo,function(txt){
                         t.confParam.layerType = 2;
                         t.confParam.url = escape(txt);
                         t.confParam.x = "";
