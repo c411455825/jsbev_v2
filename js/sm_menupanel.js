@@ -64,7 +64,7 @@
                 };
                 this.body = body;
                 var tab = this.createTab();
-                tab.appendTo(this.body);
+                if(tab)tab.appendTo(this.body);
                 this.bindEvents();
             },
             /**
@@ -74,6 +74,8 @@
             "createTab":function () {
                 var tab, ul, tree, para, li, li_a, li_div;
 
+                tree = this.config.tree;
+                if(!tree||tree.length==0)return;
                 this.tabBody = tab = $("<div class=\"sm_tabs\"></div>");
                 ul = $("<ul class=\"sm_tabs_ul\"></ul>")
                     .appendTo(tab)
@@ -83,7 +85,6 @@
                     });
                 $("<div style=\"display: none;\"><div id=\"tabs-1\"></div></div>").appendTo(tab);
 
-                tree = this.config.tree;
                 for (var i = 0; i < tree.length; i++) {
                     para = tree[i];
 

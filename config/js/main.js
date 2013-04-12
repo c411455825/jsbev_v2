@@ -18,6 +18,9 @@
         t.latInput = null;
         t.levelInput = null;
         t.iserverLayerInfoBody = null;
+        t.iserverLayerInfoLoading = null;
+        t.mapControlCheckBoxes = [];
+        t.bevControlCheckBoxes = [];
         t.isGetIServerLayerInfo = false;
         t.iserverLayerInfoSelectBar = null;
         t.requestsObj = {};
@@ -26,6 +29,7 @@
         t.createStep1();
         t.createStep2();
         t.createStep3();
+        t.createStep4();
 
         t.setMapStatus();
     }
@@ -355,6 +359,15 @@
             })
             .appendTo(b);
 
+        this.iserverLayerInfoLoading = new SuperMap.Bev.Loading({
+            "body":$("<div>")
+                .css({
+                    "margin":"10px 0px 0px 90px",
+                    "display":"none"
+                })
+                .appendTo(b)
+        });
+
         d1 = $("<div>")
             .html("地图中心点:")
             .css({
@@ -382,6 +395,49 @@
 
         d2 = t.createInput(d1,"地图级别:","",null,"40px",true);
         t.levelInput = d2[1];
+
+
+        d1 = $("<div>")
+            .html("选择地图控件:")
+            .css({
+                "margin":"20px 0px 0px 10px"
+            })
+            .appendTo(b);
+
+        d1 = $("<div>")
+            .css({
+                "margin":"10px 0px 0px 10px"
+            })
+            .appendTo(b);
+
+        this.mapControlCheckBoxes.push([this.createCheckBox("比例尺",true,d1,checkBoxChange),1]);
+        this.mapControlCheckBoxes.push([this.createCheckBox("缩放控件",true,d1,checkBoxChange),2]);
+        this.mapControlCheckBoxes.push([this.createCheckBox("导航控件",true,d1,checkBoxChange),3]);
+        this.mapControlCheckBoxes.push([this.createCheckBox("鹰眼",false,d1,checkBoxChange),4]);
+
+        function checkBoxChange(){
+            var bs = t.mapControlCheckBoxes;
+            var names = [];
+            var nameStr = "";
+            for(var i=0;i<bs.length;i++){
+                var isChecked = (bs[i][0].attr("checked")=="checked");
+                var id = bs[i][1];
+
+                if(isChecked){
+                    names.push(id);
+                }
+            }
+
+            if(names.length>0){
+                nameStr = names.join("_");
+            }
+            else{
+                nameStr = "0";
+            }
+            t.confParam.mapCtrl = nameStr;
+
+            t.setDemoPara(t.confParam);
+        }
     }
     B.createInput = function(container,title,defaultContent,width1,width2,isDisable){
         var d0,d1;
@@ -460,6 +516,7 @@
 //        }
     }
     B.getIServerLayersInfo = function(){
+        this.iserverLayerInfoLoading.show();
         var url = window.location.host,t=this;
         url = "http://"+url+"/iserver/services.jsonp";
 
@@ -520,6 +577,7 @@
         })
 
         function create(layerInfo){
+            t.iserverLayerInfoLoading.hide();
             var body = t.iserverLayerInfoBody;
             if(body){
                 body.css({
@@ -579,6 +637,84 @@
                     }
                 }
             }(key,urls.length,i,callback));
+        }
+    }
+    /**
+     * 创建复选框
+     * */
+    B.createCheckBox = function(title,isChecked,body,onChange){
+        var d1,d2;
+
+        d1 = $("<div>")
+            .appendTo(body);
+
+        d3 = $("<input>")
+            .attr({
+                "type":"checkbox",
+                "name":title
+            })
+            .change(function(){
+                if(onChange)onChange();
+            })
+            .appendTo(d1);
+
+        if(isChecked){
+            d3.attr({
+                "checked":"Checked"
+            });
+        }
+
+        d2 = $("<spans>")
+            .html(title)
+            .appendTo(d1);
+
+        return d3;
+    }
+    /**
+     * 创建第四步,选择功能控件
+     * **/
+    B.createStep4 = function(){
+        var b,d1,t=this;
+        b = this.toolBarContent;
+        d1 = $("<div>")
+            .html("4.选择功能控件")
+            .css({
+                "margin":"20px 0px 0px 10px"
+            })
+            .appendTo(b);
+
+        d1 = $("<div>")
+            .css({
+                "margin":"10px 0px 0px 10px"
+            })
+            .appendTo(b);
+
+        this.bevControlCheckBoxes.push([this.createCheckBox("量算",true,d1,checkBoxChange),1]);
+        this.bevControlCheckBoxes.push([this.createCheckBox("定位",true,d1,checkBoxChange),2]);
+        this.bevControlCheckBoxes.push([this.createCheckBox("绘制要素",true,d1,checkBoxChange),3]);
+
+        function checkBoxChange(){
+            var bs = t.bevControlCheckBoxes;
+            var names = [];
+            var nameStr = "";
+            for(var i=0;i<bs.length;i++){
+                var isChecked = (bs[i][0].attr("checked")=="checked");
+                var id = bs[i][1];
+
+                if(isChecked){
+                    names.push(id);
+                }
+            }
+
+            if(names.length>0){
+                nameStr = names.join("_");
+            }
+            else{
+                nameStr = "0";
+            }
+            t.confParam.bevCtrl = nameStr;
+
+            t.setDemoPara(t.confParam);
         }
     }
     new A();

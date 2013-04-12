@@ -1,0 +1,80 @@
+﻿/*******map style**********/
+body {
+    padding: 0;
+    margin: 0;
+    /*overflow: hidden;*/
+    background: #fff;
+}
+
+/*******demo style**********/
+#head {
+    height: 60px;
+    position: relative;
+    z-index: 5;
+}
+
+#logo {
+    height: 56px;
+    width: 311px;
+    background: url(../../img/banner-logo.png);
+    margin: 10px 0px 0px 20px;
+}
+#bev_bd{
+    height:100%;
+    position: relative;
+}
+#bd_left{
+    height:100%;
+    width: 340px;
+    position: relative;
+}
+#left_back{
+    z-index: -5;
+}
+#bd_right{
+    height:100%;
+    position: relative;
+    margin-left: 341px;
+}
+.bdleft_d1{
+    width: 320px;
+}
+
+.bd_toolbar{
+    border-bottom:1px solid #ddd;
+    /*height: 16px;*/
+    position: absolute;
+    width: 100%;
+    background: #fff;
+    z-index: 5;
+    padding: 7px 0px 7px 0px;
+    text-align: right;
+}
+
+#toolbar_back{
+    z-index: -5;
+}
+
+.bd_map{
+    position: absolute;
+    z-index: -5;
+    height: 100%;
+    width: 100%;
+    top:0px;
+}
+
+div[id*="PanZoomBar"] {
+    top: 30px;
+}
+/**********common style*******************/
+.inline_block {
+    display: inline-block;
+}
+
+.floatl{
+    float:left;
+}
+
+.border{
+    border:1px solid #0f0;
+}

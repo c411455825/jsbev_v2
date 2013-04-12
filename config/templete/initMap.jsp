@@ -8,8 +8,12 @@ String z = (String) request.getParameter("z");
 String _layerType = (String) request.getParameter("layerType");
 int layerType = Integer.parseInt(_layerType);
 String url = (String) request.getParameter("url");
+String mapCtrl = (String) request.getParameter("mapCtrl");
 if(url!=null){
 	url = URLDecoder.decode(url,"utf-8");
+}
+if("".equals(mapCtrl)){
+	mapCtrl = "1_2_3";
 }
 %>
 <%switch(layerType){
@@ -59,11 +63,25 @@ if(url!=null){
 				'mapContainer',
 				{
 					controls:[
-						//new SuperMap.Control.LayerSwitcher(),
-						new SuperMap.Control.ScaleLine(),
-						new SuperMap.Control.PanZoomBar(),
-						new SuperMap.Control.Navigation({ dragPanOptions: { enableKinetic: true } })//,
-						//new SuperMap.Control.OverviewMap()
+					<%
+					System.out.println("mapCtrl is " + mapCtrl);
+					String mapCtrlCodeStr = "";
+					String[] mapCtrlIds = mapCtrl.split("_");
+					StringBuffer mapCtrlCodeStrBf = new StringBuffer();
+					for(int i=0;i<mapCtrlIds.length;i++){
+						String temp = "";
+						switch(Integer.parseInt(mapCtrlIds[i])){
+							case 1:temp="new SuperMap.Control.ScaleLine()";break;
+							case 2:temp="new SuperMap.Control.PanZoomBar()";break;
+							case 3:temp="new SuperMap.Control.Navigation({ dragPanOptions:{enableKinetic:true}})";break;
+							case 4:temp="new SuperMap.Control.OverviewMap()";break;
+						}
+						mapCtrlCodeStrBf.append(temp);
+						if(i<mapCtrlIds.length-1){mapCtrlCodeStrBf.append(",");}
+					}
+					mapCtrlCodeStr = mapCtrlCodeStrBf.toString();
+					%>
+					<%=mapCtrlCodeStr%>
 					],
 					units: 'm',
 					allOverlays:true

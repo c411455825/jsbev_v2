@@ -1,0 +1,57 @@
+﻿body{
+    /*position: absolute;*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+    margin: 0px;
+    background: #f1f1f1;
+    padding: 0px;
+}
+#head{
+    position: absolute;
+    left: 20px;
+    top:14px;
+    height: 32px;
+    /*border: 1px solid #333;*/
+    width: 240px;
+    background: url(../../img/t3ui.png) -180px -10px;
+}
+#canvas{
+    /*border:1px solid #333;*/
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    background: #f1f1f1;
+    box-shadow:0 0 20px #666;
+    border: 10px solid #fff;
+}
+#mapContainer{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: 0px solid;
+}
+#toolbar{
+    position: absolute;
+    height: 36px;
+    top:20px;
+    left: 20px;
+    /*border: 1px solid #333;*/
+    display: inline-block;
+}
+.icon16_16 {
+    width: 16px;
+    height: 16px;
+    vertical-align: top;
+    display: inline-block;
+    margin: 0px 5px 0px 5px;
+}
+.measureResult {
+    height: 40px;
+    font-size: 2em;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid #74A1AF;
+    color: #000000;
+    background-color: #ffffff;
+}

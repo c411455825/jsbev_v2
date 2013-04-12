@@ -1,11 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="GBK"%>
 <%
+System.out.println("__________________________________________________");
 String theme = (String) request.getParameter("theme");
 String x = (String) request.getParameter("x");
 String y = (String) request.getParameter("y");
 String z = (String) request.getParameter("z");
 String layerType = (String) request.getParameter("layerType");
 String url = (String) request.getParameter("url");
+String mapCtrl = (String) request.getParameter("mapCtrl");
+String bevCtrl = (String) request.getParameter("bevCtrl");
 if(theme == null){
 	theme = "cupertino";
 }
@@ -19,6 +22,8 @@ if(z==""||z==null){
 	z="0";
 }
 if(layerType==null)layerType="1";
+if(mapCtrl==null)mapCtrl="";
+if(bevCtrl==null)bevCtrl="1_2_3";
 %>
 <!DOCTYPE html>
 <html>
@@ -51,6 +56,7 @@ if(layerType==null)layerType="1";
 		<jsp:param name="z" value="<%=z%>"/> 
 		<jsp:param name="layerType" value="<%=layerType%>"/>
 		<jsp:param name="url" value="<%=url%>"/>
+		<jsp:param name="mapCtrl" value="<%=mapCtrl%>"/>
 	</jsp:include>
 	<script>
         var myWidgetControl,myMenuPanel,myMeasure,myNavigation,myGeolocate,myDrawFeature;
@@ -58,11 +64,13 @@ if(layerType==null)layerType="1";
             myWidgetControl = new SuperMap.Bev.WidgetControl("#widgetControl");
             myMenuPanel = new SuperMap.Bev.MenuPanel($("#toolbar"),{
                 "tree":[
+					<%if(bevCtrl.indexOf("0")<0){%>
                     {
                         "icon":"tool_icon",
                         "title":"基本操作",
                         "menu":new SuperMap.Bev.Menu(null,{
                             "tree":[
+								<%if(bevCtrl.indexOf("1")>=0){%>
                                 {
                                     "icon":"measure_16_16",
                                     "text":"量&nbsp;&nbsp;&nbsp;&nbsp;算",
@@ -85,7 +93,10 @@ if(layerType==null)layerType="1";
                                             }
                                         }
                                     }
-                                },
+                                }
+								<%}%>
+								<%if(bevCtrl.indexOf("1")>=0&&bevCtrl.indexOf("2")>=0){%>,<%}%>
+								<%if(bevCtrl.indexOf("2")>=0){%>
                                 {
                                     "icon":"geolocate_16_16",
                                     "text":"定&nbsp;&nbsp;&nbsp;&nbsp;位",
@@ -108,7 +119,10 @@ if(layerType==null)layerType="1";
                                             }
                                         }
                                     }
-                                },
+                                }
+								<%}%>
+								<%if(bevCtrl.indexOf("2")>=0&&bevCtrl.indexOf("3")>=0){%>,<%}%>
+								<%if(bevCtrl.indexOf("3")>=0){%>
                                 {
                                     "icon":"draw_16_16",
                                     "text":"绘&nbsp;&nbsp;&nbsp;&nbsp;制",
@@ -132,10 +146,11 @@ if(layerType==null)layerType="1";
                                         }
                                     }
                                 }
-
+								<%}%>
                             ]
                         })
                     }
+					<%}%>
                 ]
             });
         }

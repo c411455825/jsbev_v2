@@ -6,6 +6,8 @@ String y = (String) request.getParameter("y");
 String z = (String) request.getParameter("z");
 String layerType = (String) request.getParameter("layerType");
 String url = (String) request.getParameter("url");
+String mapCtrl = (String) request.getParameter("mapCtrl");
+String bevCtrl = (String) request.getParameter("bevCtrl");
 if(theme == null){
 	theme = "cupertino";
 }
@@ -19,6 +21,8 @@ if(z==""||z==null){
 	z="0";
 }
 if(layerType==null)layerType="1";
+if(mapCtrl==null)mapCtrl="";
+if(bevCtrl==null)bevCtrl="1_2_3";
 %>
 <!DOCTYPE html> 
 <html> 
@@ -52,10 +56,12 @@ if(layerType==null)layerType="1";
 		<jsp:param name="z" value="<%=z%>"/> 
 		<jsp:param name="layerType" value="<%=layerType%>"/>
 		<jsp:param name="url" value="<%=url%>"/>
+		<jsp:param name="mapCtrl" value="<%=mapCtrl%>"/>
 	</jsp:include>
 	<script>
         var myMeasure,myTooltip,myGeolocate,myDrawFeature;
         function initDemo(){
+			<%if(bevCtrl.indexOf("1")>=0){%>
             var myIcon1 = new SuperMap.Bev.Icon($("#bd_toolbar"),{
                 "title":"面积量算",
                 "img":"images/frameimages/measure2.png",
@@ -75,6 +81,8 @@ if(layerType==null)layerType="1";
                 },
                 "isDisplayTitle":true
             });
+			<%}%>
+			<%if(bevCtrl.indexOf("2")>=0){%>
             var myIcon3 = new SuperMap.Bev.Icon($("#bd_toolbar"),{
                 "title":"定位",
                 "img":"images/frameimages/geolocate_16_16.png",
@@ -84,7 +92,6 @@ if(layerType==null)layerType="1";
                 },
                 "isDisplayTitle":true
             });
-
             var myIcon4 = new SuperMap.Bev.Icon($("#bd_toolbar"),{
                 "title":"清除标记",
                 "img":"images/frameimages/clear.png",
@@ -94,17 +101,20 @@ if(layerType==null)layerType="1";
                 },
                 "isDisplayTitle":true
             });
-
+			<%}%>
+			<%if(bevCtrl.indexOf("3")>=0){%>
             myDrawFeature = new SuperMap.Bev.DrawFeature($("<div>"));
             var drawFeatureBody = myDrawFeature.body;
             window.setTimeout(function(){myDrawFeature.setMap(map);},30);
+			<%}%>
             var myAccordion = new SuperMap.Bev.Accordion($("#left_menu"),
                 [
-                    
+                    <%if(bevCtrl.indexOf("3")>=0){%>
                     {
                         "title":"绘制",
                         "body":drawFeatureBody
                     },
+					<%}%>
                     {
                         "title":"查询",
                         "body":$("<p>this is a examples</p><br><p>this is a examples</p><br><p>this is a examples</p>")
